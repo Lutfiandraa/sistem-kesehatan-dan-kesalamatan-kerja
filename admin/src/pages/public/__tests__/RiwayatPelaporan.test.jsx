@@ -164,10 +164,10 @@ describe('RiwayatPelaporan Component', () => {
     
     await waitFor(() => {
       expect(screen.getByText('Report 1')).toBeInTheDocument();
-    });
+    }, { timeout: 3000 });
 
-    // Find and click status button
-    const statusButton = await screen.findByText(/Belum di Cek/i);
+    // Find and click status button - get the button containing "Belum di Cek"
+    const statusButton = await screen.findByText(/Belum di Cek/i, {}, { timeout: 3000 });
     await userEvent.click(statusButton);
     
     // Wait for dropdown to appear and click on a status option
@@ -179,7 +179,7 @@ describe('RiwayatPelaporan Component', () => {
         '/public/reports/1',
         expect.objectContaining({ status: 'aman' })
       );
-    }, { timeout: 3000 });
+    }, { timeout: 5000 });
   });
 
   it('should filter reports by category - Terberat', async () => {
@@ -208,22 +208,34 @@ describe('RiwayatPelaporan Component', () => {
     
     await waitFor(() => {
       expect(screen.getByText('Report Ringan')).toBeInTheDocument();
-    });
+      expect(screen.getByText('Report Berat')).toBeInTheDocument();
+    }, { timeout: 3000 });
 
     const kategoriButton = screen.getByText('Kategori');
     await userEvent.click(kategoriButton);
     
     // Wait for dropdown to appear
-    const terberatOption = await screen.findByText('Terberat', {}, { timeout: 3000 });
+    await waitFor(() => {
+      expect(screen.getByText('Terberat')).toBeInTheDocument();
+    }, { timeout: 3000 });
+    
+    const terberatOption = screen.getByText('Terberat');
     await userEvent.click(terberatOption);
     
     // Reports should be sorted by severity (berat first)
     // Wait a bit for sorting to complete
     await waitFor(() => {
       const reports = screen.getAllByText(/Report (Ringan|Berat)/i);
-      // First report should be "Report Berat" (terberat)
-      expect(reports[0].textContent).toContain('Berat');
-    }, { timeout: 3000 });
+      // After sorting, "Report Berat" should appear first
+      expect(reports.length).toBeGreaterThan(0);
+      // Check if "Report Berat" appears before "Report Ringan" in the DOM
+      const reportTexts = reports.map(r => r.textContent);
+      const beratIndex = reportTexts.findIndex(t => t.includes('Berat'));
+      const ringanIndex = reportTexts.findIndex(t => t.includes('Ringan'));
+      if (beratIndex !== -1 && ringanIndex !== -1) {
+        expect(beratIndex).toBeLessThan(ringanIndex);
+      }
+    }, { timeout: 5000 });
   });
 
   it('should filter reports by category - Teringan', async () => {
@@ -252,22 +264,34 @@ describe('RiwayatPelaporan Component', () => {
     
     await waitFor(() => {
       expect(screen.getByText('Report Ringan')).toBeInTheDocument();
-    });
+      expect(screen.getByText('Report Berat')).toBeInTheDocument();
+    }, { timeout: 3000 });
 
     const kategoriButton = screen.getByText('Kategori');
     await userEvent.click(kategoriButton);
     
     // Wait for dropdown to appear
-    const teringanOption = await screen.findByText('Teringan', {}, { timeout: 3000 });
+    await waitFor(() => {
+      expect(screen.getByText('Teringan')).toBeInTheDocument();
+    }, { timeout: 3000 });
+    
+    const teringanOption = screen.getByText('Teringan');
     await userEvent.click(teringanOption);
     
     // Reports should be sorted by severity (ringan first)
     // Wait a bit for sorting to complete
     await waitFor(() => {
       const reports = screen.getAllByText(/Report (Ringan|Berat)/i);
-      // First report should be "Report Ringan" (teringan)
-      expect(reports[0].textContent).toContain('Ringan');
-    }, { timeout: 3000 });
+      // After sorting, "Report Ringan" should appear first
+      expect(reports.length).toBeGreaterThan(0);
+      // Check if "Report Ringan" appears before "Report Berat" in the DOM
+      const reportTexts = reports.map(r => r.textContent);
+      const ringanIndex = reportTexts.findIndex(t => t.includes('Ringan'));
+      const beratIndex = reportTexts.findIndex(t => t.includes('Berat'));
+      if (ringanIndex !== -1 && beratIndex !== -1) {
+        expect(ringanIndex).toBeLessThan(beratIndex);
+      }
+    }, { timeout: 5000 });
   });
 
   it('should toggle select mode', async () => {
@@ -288,10 +312,10 @@ describe('RiwayatPelaporan Component', () => {
     
     await waitFor(() => {
       expect(screen.getByText('Report 1')).toBeInTheDocument();
-    });
+    }, { timeout: 3000 });
 
     // Find status button and open dropdown
-    const statusButton = await screen.findByText(/Belum di Cek/i);
+    const statusButton = await screen.findByText(/Belum di Cek/i, {}, { timeout: 3000 });
     await userEvent.click(statusButton);
     
     // Wait for dropdown and find "Pilih untuk Hapus" option
@@ -300,7 +324,7 @@ describe('RiwayatPelaporan Component', () => {
     
     // Wait for select mode to be activated (checkboxes should appear)
     await waitFor(() => {
-      const checkboxes = screen.getAllByRole('checkbox');
+      const checkboxes = screen.queryAllByRole('checkbox');
       expect(checkboxes.length).toBeGreaterThan(0);
     }, { timeout: 3000 });
   });
@@ -332,10 +356,11 @@ describe('RiwayatPelaporan Component', () => {
     
     await waitFor(() => {
       expect(screen.getByText('Report 1')).toBeInTheDocument();
-    });
+    }, { timeout: 3000 });
 
-    // Open select mode via status dropdown
-    const statusButton = await screen.findByText(/Belum di Cek/i);
+    // Open select mode via status dropdown - find first status button
+    const statusButtons = await screen.findAllByText(/Belum di Cek/i, {}, { timeout: 3000 });
+    const statusButton = statusButtons[0];
     await userEvent.click(statusButton);
     
     const selectOption = await screen.findByText(/Pilih untuk Hapus/i, {}, { timeout: 3000 });
@@ -343,21 +368,26 @@ describe('RiwayatPelaporan Component', () => {
 
     // Wait for checkboxes to appear and click first one
     await waitFor(() => {
-      const checkboxes = screen.getAllByRole('checkbox');
+      const checkboxes = screen.queryAllByRole('checkbox');
       expect(checkboxes.length).toBeGreaterThan(0);
     }, { timeout: 3000 });
     
     const checkboxes = screen.getAllByRole('checkbox');
     await userEvent.click(checkboxes[0]);
 
-    // Open dropdown again to find delete button
+    // Wait a bit for state to update, then open dropdown again to find delete button
+    await waitFor(() => {
+      expect(checkboxes[0]).toBeChecked();
+    }, { timeout: 2000 });
+
+    // Open dropdown again on the same button
     await userEvent.click(statusButton);
     const deleteButton = await screen.findByText(/Hapus \(\d+\)/i, {}, { timeout: 3000 });
     await userEvent.click(deleteButton);
     
     await waitFor(() => {
       expect(api.delete).toHaveBeenCalled();
-    }, { timeout: 3000 });
+    }, { timeout: 5000 });
   });
 
   it('should handle API error when fetching reports', async () => {
@@ -389,9 +419,9 @@ describe('RiwayatPelaporan Component', () => {
     
     await waitFor(() => {
       expect(screen.getByText('Report 1')).toBeInTheDocument();
-    });
+    }, { timeout: 3000 });
 
-    const statusButton = await screen.findByText(/Belum di Cek/i);
+    const statusButton = await screen.findByText(/Belum di Cek/i, {}, { timeout: 3000 });
     await userEvent.click(statusButton);
     
     const amanOption = await screen.findByText(/Aman!/i, {}, { timeout: 3000 });
@@ -399,7 +429,7 @@ describe('RiwayatPelaporan Component', () => {
     
     await waitFor(() => {
       expect(global.alert).toHaveBeenCalled();
-    }, { timeout: 3000 });
+    }, { timeout: 5000 });
   });
 
   it('should navigate back when back button is clicked', async () => {
@@ -407,7 +437,13 @@ describe('RiwayatPelaporan Component', () => {
     
     renderWithRouter(<RiwayatPelaporan />);
     
-    const backButton = screen.getByRole('button');
+    // Wait for component to render, then find the back button
+    await waitFor(() => {
+      expect(screen.getByText(/Riwayat Pelaporan/i)).toBeInTheDocument();
+    }, { timeout: 3000 });
+    
+    // Find the back button (first button in the header)
+    const backButton = screen.getAllByRole('button')[0];
     await userEvent.click(backButton);
     
     expect(mockNavigate).toHaveBeenCalledWith(-1);

@@ -252,10 +252,11 @@ function ProgramKerja() {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Jenis Insiden */}
             <div>
-              <label className="block text-sm font-bold text-gray-900 mb-2">
+              <label htmlFor="jenisInsiden" className="block text-sm font-bold text-gray-900 mb-2">
                 Jenis Insiden:
               </label>
               <input
+                id="jenisInsiden"
                 type="text"
                 name="jenisInsiden"
                 value={formData.jenisInsiden}
@@ -267,11 +268,12 @@ function ProgramKerja() {
 
             {/* Tanggal */}
             <div>
-              <label className="block text-sm font-bold text-gray-900 mb-2">
+              <label htmlFor="tanggal" className="block text-sm font-bold text-gray-900 mb-2">
                 Tanggal :
               </label>
               <div className="relative">
                 <input
+                  id="tanggal"
                   ref={dateInputRef}
                   type="date"
                   name="tanggal"
@@ -314,10 +316,11 @@ function ProgramKerja() {
 
             {/* Lokasi */}
             <div>
-              <label className="block text-sm font-bold text-gray-900 mb-2">
+              <label htmlFor="lokasi" className="block text-sm font-bold text-gray-900 mb-2">
                 Lokasi :
               </label>
               <input
+                id="lokasi"
                 type="text"
                 name="lokasi"
                 value={formData.lokasi}
@@ -329,10 +332,11 @@ function ProgramKerja() {
 
             {/* Deskripsi */}
             <div>
-              <label className="block text-sm font-bold text-gray-900 mb-2">
+              <label htmlFor="deskripsi" className="block text-sm font-bold text-gray-900 mb-2">
                 Deskripsi :
               </label>
               <textarea
+                id="deskripsi"
                 name="deskripsi"
                 value={formData.deskripsi}
                 onChange={handleChange}

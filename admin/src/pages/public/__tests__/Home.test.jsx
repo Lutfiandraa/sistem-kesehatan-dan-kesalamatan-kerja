@@ -65,10 +65,15 @@ describe('Home Component', () => {
       expect(api.get).toHaveBeenCalledWith('/public/reports');
     }, { timeout: 3000 });
     
-    // Wait for statistics to be calculated and displayed
+    // Wait for loading to finish and statistics to be calculated
     await waitFor(() => {
-      // Statistics section should be visible
+      expect(screen.queryByText(/Memuat statistik/i)).not.toBeInTheDocument();
+    }, { timeout: 3000 });
+    
+    // Wait for statistics section to be visible
+    await waitFor(() => {
       expect(screen.getByText(/Statistik/i)).toBeInTheDocument();
+      expect(screen.getByText(/Hasil Pelaporan/i)).toBeInTheDocument();
     }, { timeout: 3000 });
   });
 
@@ -85,12 +90,19 @@ describe('Home Component', () => {
     expect(screen.getByText(/SafetyKU/i)).toBeInTheDocument();
   });
 
-  it('should display statistics section', () => {
+  it('should display statistics section', async () => {
     api.get.mockResolvedValueOnce({ data: [] });
     
     renderWithRouter(<Home />);
     
-    expect(screen.getByText(/Statistik/i)).toBeInTheDocument();
+    // Wait for loading to finish
+    await waitFor(() => {
+      expect(screen.queryByText(/Memuat statistik/i)).not.toBeInTheDocument();
+    }, { timeout: 3000 });
+    
+    await waitFor(() => {
+      expect(screen.getByText(/Statistik/i)).toBeInTheDocument();
+    }, { timeout: 3000 });
   });
 });
 

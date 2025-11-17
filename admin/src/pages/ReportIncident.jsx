@@ -65,10 +65,11 @@ function ReportIncident() {
           )}
 
           <div className="mb-6">
-            <label className="block mb-2 text-sm font-semibold text-gray-700">
+            <label htmlFor="incident_type" className="block mb-2 text-sm font-semibold text-gray-700">
               Jenis Insiden *
             </label>
             <select
+              id="incident_type"
               name="incident_type"
               value={formData.incident_type}
               onChange={handleChange}
@@ -84,10 +85,11 @@ function ReportIncident() {
           </div>
 
           <div className="mb-6">
-            <label className="block mb-2 text-sm font-semibold text-gray-700">
+            <label htmlFor="title" className="block mb-2 text-sm font-semibold text-gray-700">
               Judul Laporan *
             </label>
             <input
+              id="title"
               type="text"
               name="title"
               value={formData.title}
@@ -99,10 +101,11 @@ function ReportIncident() {
           </div>
 
           <div className="mb-6">
-            <label className="block mb-2 text-sm font-semibold text-gray-700">
+            <label htmlFor="description" className="block mb-2 text-sm font-semibold text-gray-700">
               Deskripsi *
             </label>
             <textarea
+              id="description"
               name="description"
               value={formData.description}
               onChange={handleChange}
@@ -114,10 +117,11 @@ function ReportIncident() {
           </div>
 
           <div className="mb-6">
-            <label className="block mb-2 text-sm font-semibold text-gray-700">
+            <label htmlFor="location" className="block mb-2 text-sm font-semibold text-gray-700">
               Lokasi *
             </label>
             <input
+              id="location"
               type="text"
               name="location"
               value={formData.location}
@@ -129,10 +133,11 @@ function ReportIncident() {
           </div>
 
           <div className="mb-6">
-            <label className="block mb-2 text-sm font-semibold text-gray-700">
+            <label htmlFor="incident_date" className="block mb-2 text-sm font-semibold text-gray-700">
               Tanggal & Waktu Insiden *
             </label>
             <input
+              id="incident_date"
               type="datetime-local"
               name="incident_date"
               value={formData.incident_date}
@@ -143,7 +148,7 @@ function ReportIncident() {
           </div>
 
           <div className="mb-6">
-            <label className="block mb-2 text-sm font-semibold text-gray-700">
+            <label className="block mb-2 text-sm font-semibold text-gray-700" id="severity-label">
               Tingkat Keparahan *
             </label>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">

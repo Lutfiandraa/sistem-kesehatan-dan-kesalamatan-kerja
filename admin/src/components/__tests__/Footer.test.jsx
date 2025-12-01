@@ -17,8 +17,11 @@ describe('Footer Component', () => {
   it('should render SafetyKU Indonesia text', () => {
     renderWithRouter(<Footer />);
     
-    expect(screen.getByText(/SafetyKU/i)).toBeInTheDocument();
-    expect(screen.getByText(/Indonesia/i)).toBeInTheDocument();
+    // There are multiple "SafetyKU" and "Indonesia" texts, use getAllByText
+    const safetyKUTexts = screen.getAllByText(/SafetyKU/i);
+    expect(safetyKUTexts.length).toBeGreaterThan(0);
+    const indonesiaTexts = screen.getAllByText(/Indonesia/i);
+    expect(indonesiaTexts.length).toBeGreaterThan(0);
   });
 
   it('should not render Hubungi Kami link', () => {

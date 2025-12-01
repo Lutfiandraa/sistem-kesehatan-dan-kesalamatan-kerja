@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { BrowserRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import Navbar from '../Navbar';
 
 // Mock AuthContext
@@ -18,9 +18,9 @@ jest.mock('../../context/AuthContext', () => ({
 
 const renderWithRouter = (component, initialEntries = ['/dashboard']) => {
   return render(
-    <BrowserRouter>
+    <MemoryRouter initialEntries={initialEntries}>
       {component}
-    </BrowserRouter>
+    </MemoryRouter>
   );
 };
 
@@ -40,10 +40,18 @@ describe('Navbar Component', () => {
   it('should display navigation items', () => {
     renderWithRouter(<Navbar />);
     
-    expect(screen.getByText(/Dashboard/i)).toBeInTheDocument();
-    expect(screen.getByText(/Pelaporan/i)).toBeInTheDocument();
-    expect(screen.getByText(/Riwayat/i)).toBeInTheDocument();
-    expect(screen.getByText(/Statistik/i)).toBeInTheDocument();
+    // Use getAllByText since there are multiple (desktop and mobile nav)
+    const dashboardLinks = screen.getAllByText(/Dashboard/i);
+    expect(dashboardLinks.length).toBeGreaterThan(0);
+    
+    const reportLinks = screen.getAllByText(/Pelaporan/i);
+    expect(reportLinks.length).toBeGreaterThan(0);
+    
+    const historyLinks = screen.getAllByText(/Riwayat/i);
+    expect(historyLinks.length).toBeGreaterThan(0);
+    
+    const statsLinks = screen.getAllByText(/Statistik/i);
+    expect(statsLinks.length).toBeGreaterThan(0);
   });
 
   it('should display user name', () => {
@@ -62,7 +70,7 @@ describe('Navbar Component', () => {
   });
 
   it('should highlight active route', () => {
-    renderWithRouter(<Navbar />);
+    renderWithRouter(<Navbar />, ['/dashboard']);
     
     // Get all Dashboard links and check the first one (desktop nav)
     const dashboardLinks = screen.getAllByText(/Dashboard/i);

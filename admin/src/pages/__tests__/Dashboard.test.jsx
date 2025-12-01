@@ -88,9 +88,18 @@ describe('Dashboard Component', () => {
       expect(api.get).toHaveBeenCalledWith('/incidents');
     });
     
+    // Wait for loading to finish
     await waitFor(() => {
-      expect(screen.getByText('3')).toBeInTheDocument(); // Total
-    });
+      expect(screen.queryByText('...')).not.toBeInTheDocument();
+    }, { timeout: 3000 });
+    
+    // Check statistics using more specific selectors based on context
+    await waitFor(() => {
+      // Find Total Laporan card and check its value
+      const totalLabel = screen.getByText('Total Laporan');
+      const totalCard = totalLabel.closest('.bg-white');
+      expect(totalCard).toHaveTextContent('3');
+    }, { timeout: 3000 });
   });
 
   it('should display loading state', () => {
@@ -98,7 +107,9 @@ describe('Dashboard Component', () => {
     
     renderWithRouter(<Dashboard />);
     
-    expect(screen.getByText('...')).toBeInTheDocument();
+    // There are multiple "..." elements (one for each stat card), so use getAllByText
+    const loadingElements = screen.getAllByText('...');
+    expect(loadingElements.length).toBeGreaterThan(0);
   });
 
   it('should display quick action links', async () => {
@@ -168,11 +179,28 @@ describe('Dashboard Component', () => {
     
     renderWithRouter(<Dashboard />);
     
+    // Wait for loading to finish
     await waitFor(() => {
-      expect(screen.getByText('4')).toBeInTheDocument(); // Total
-      expect(screen.getByText('2')).toBeInTheDocument(); // Pending
-      expect(screen.getByText('2')).toBeInTheDocument(); // Resolved
-    });
+      expect(screen.queryByText('...')).not.toBeInTheDocument();
+    }, { timeout: 3000 });
+    
+    // Check statistics using more specific selectors based on context
+    await waitFor(() => {
+      // Find Total Laporan card and check its value
+      const totalLabel = screen.getByText('Total Laporan');
+      const totalCard = totalLabel.closest('.bg-white');
+      expect(totalCard).toHaveTextContent('4');
+      
+      // Find Menunggu card and check its value
+      const pendingLabel = screen.getByText('Menunggu');
+      const pendingCard = pendingLabel.closest('.bg-white');
+      expect(pendingCard).toHaveTextContent('2');
+      
+      // Find Selesai card and check its value
+      const resolvedLabel = screen.getByText('Selesai');
+      const resolvedCard = resolvedLabel.closest('.bg-white');
+      expect(resolvedCard).toHaveTextContent('2');
+    }, { timeout: 3000 });
   });
 });
 

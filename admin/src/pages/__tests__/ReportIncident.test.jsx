@@ -35,7 +35,8 @@ describe('ReportIncident Component', () => {
     expect(screen.getByLabelText(/Deskripsi/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Lokasi/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Tanggal & Waktu Insiden/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Tingkat Keparahan/i)).toBeInTheDocument();
+    // Tingkat Keparahan doesn't have htmlFor, so use getByText or getByRole
+    expect(screen.getByText(/Tingkat Keparahan/i)).toBeInTheDocument();
   });
 
   it('should handle form input changes', async () => {

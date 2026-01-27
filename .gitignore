@@ -45,4 +45,5 @@ coverage/
 # Test results
 *.html
 !**/TEST_RESULTS_REPORT.html
+!frontend/index.html
 

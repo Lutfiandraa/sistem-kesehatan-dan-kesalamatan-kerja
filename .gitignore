@@ -18,6 +18,15 @@ uploads/
 *.png
 *.gif
 *.pdf
+# Allow images in frontend/public (must come after the ignore patterns)
+!frontend/public/
+!frontend/public/**
+!frontend/public/**/*.png
+!frontend/public/**/*.jpg
+!frontend/public/**/*.jpeg
+!frontend/public/**/*.gif
+!frontend/public/**/*.svg
+!frontend/public/**/*.webp
 
 # Logs
 logs/

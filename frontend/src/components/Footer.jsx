@@ -7,7 +7,7 @@ function Footer() {
           <div>
             <div className="flex items-center space-x-3 mb-4">
               <img 
-                src="/keselamatanlogo.png" 
+                src="/img/keselamatanlogo.png" 
                 alt="SafetyKU Logo" 
                 className="h-10 w-10 object-contain"
               />

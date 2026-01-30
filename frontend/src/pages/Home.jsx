@@ -13,21 +13,21 @@ const featuredMaterials = [
     title: 'Pentingnya Alat Pelindung Diri (APD) di Tempat Kerja',
     description: 'Alat Pelindung Diri (APD) merupakan perlengkapan wajib yang harus digunakan oleh pekerja untuk melindungi diri dari bahaya di tempat kerja. Setiap pekerja harus memahami jenis APD yang sesuai dengan pekerjaannya.',
     category: 'Safety',
-    image: '/APD.png'
+    image: '/img/APD.png'
   },
   {
     id: 'dummy-2',
     title: 'Prosedur Evakuasi Darurat di Tempat Kerja',
     description: 'Setiap pekerja harus memahami prosedur evakuasi darurat di tempat kerja. Prosedur ini mencakup rute evakuasi, titik kumpul, dan langkah-langkah yang harus dilakukan saat terjadi keadaan darurat.',
     category: 'Safety',
-    image: '/evakuasi.png'
+    image: '/img/evakuasi.png'
   },
   {
     id: 'dummy-3',
     title: 'Kesehatan Mental di Tempat Kerja',
     description: 'Kesehatan mental sama pentingnya dengan kesehatan fisik di tempat kerja. Stres kerja, beban kerja berlebihan, dan lingkungan kerja yang tidak sehat dapat mempengaruhi kesehatan mental pekerja.',
     category: 'Kesehatan',
-    image: '/kesehatan.png'
+    image: '/img/kesehatan.png'
   }
 ]
 
@@ -38,7 +38,7 @@ function Home() {
       <section 
         className="text-white py-20 relative overflow-hidden"
         style={{
-          backgroundImage: 'url(/safetybackground.png)',
+          backgroundImage: 'url(/img/safetybackground.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',

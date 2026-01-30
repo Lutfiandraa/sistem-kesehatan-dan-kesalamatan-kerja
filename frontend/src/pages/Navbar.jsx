@@ -61,7 +61,7 @@ function Navbar() {
             {/* Logo */}
             <Link to="/" className="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
               <img 
-                src="/keselamatanlogo.png" 
+                src="/img/keselamatanlogo.png" 
                 alt="SafetyKU Logo" 
                 className="h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 object-contain"
               />

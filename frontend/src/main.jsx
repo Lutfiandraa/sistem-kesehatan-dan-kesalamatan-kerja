@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
-import keselamatanlogo from '../img/keselamatanlogo.png'
+import keselamatanlogo from './assets/keselamatanlogo.png'
 
 const link = document.querySelector('link[rel="icon"]')
 if (link) link.href = keselamatanlogo

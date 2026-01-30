@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
-import apd from '../../img/APD.png'
-import evakuasi from '../../img/evakuasi.png'
-import kesehatan from '../../img/kesehatan.png'
-import safetybackground from '../../img/safetybackground.png'
+import apd from '../assets/APD.png'
+import evakuasi from '../assets/evakuasi.png'
+import kesehatan from '../assets/kesehatan.png'
+import safetybackground from '../assets/safetybackground.png'
 
 // Helper function untuk truncate text
 const truncateText = (text, maxLength = 150) => {

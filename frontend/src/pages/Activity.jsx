@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
 import { FaTimes, FaBook, FaChevronDown } from 'react-icons/fa'
 import api from '../services/api'
-import apd from '../../img/APD.png'
-import evakuasi from '../../img/evakuasi.png'
-import kesehatan from '../../img/kesehatan.png'
-import manfaat5s from '../../img/manfaat5s.png'
-import p3k from '../../img/p3k.png'
-import scaffolder from '../../img/scaffolder.png'
+import apd from '../assets/APD.png'
+import evakuasi from '../assets/evakuasi.png'
+import kesehatan from '../assets/kesehatan.png'
+import manfaat5s from '../assets/manfaat5s.png'
+import p3k from '../assets/p3k.png'
+import scaffolder from '../assets/scaffolder.png'
 
 const imgByFilename = {
   'APD.png': apd,
@@ -97,7 +97,7 @@ function Activity() {
         const response = await api.get('/public/materials')
         const materials = response.data || []
         
-        // Normalize image: gunakan URL dari frontend/img jika ada
+        // Normalize image: gunakan URL dari assets jika ada
         const withImgPath = (m) => ({
           ...m,
           image: getImgUrl(m.image) || m.image

@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import keselamatanlogo from '../../img/keselamatanlogo.png'
+import keselamatanlogo from '../assets/keselamatanlogo.png'
 
 function Navbar() {
   const location = useLocation()

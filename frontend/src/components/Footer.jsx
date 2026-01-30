@@ -1,4 +1,4 @@
-import keselamatanlogo from '../../img/keselamatanlogo.png'
+import keselamatanlogo from '../assets/keselamatanlogo.png'
 
 function Footer() {
   return (

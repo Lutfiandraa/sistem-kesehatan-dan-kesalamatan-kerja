@@ -1,3 +1,5 @@
+import keselamatanlogo from '../../img/keselamatanlogo.png'
+
 function Footer() {
   return (
     <footer style={{ backgroundColor: '#1a1a1a' }}>
@@ -7,7 +9,7 @@ function Footer() {
           <div>
             <div className="flex items-center space-x-3 mb-4">
               <img 
-                src="/img/keselamatanlogo.png" 
+                src={keselamatanlogo} 
                 alt="SafetyKU Logo" 
                 className="h-10 w-10 object-contain"
               />

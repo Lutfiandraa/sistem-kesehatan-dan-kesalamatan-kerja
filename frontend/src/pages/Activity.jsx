@@ -1,6 +1,27 @@
 import { useState, useEffect, useRef } from 'react'
 import { FaTimes, FaBook, FaChevronDown } from 'react-icons/fa'
 import api from '../services/api'
+import apd from '../../img/APD.png'
+import evakuasi from '../../img/evakuasi.png'
+import kesehatan from '../../img/kesehatan.png'
+import manfaat5s from '../../img/manfaat5s.png'
+import p3k from '../../img/p3k.png'
+import scaffolder from '../../img/scaffolder.png'
+
+const imgByFilename = {
+  'APD.png': apd,
+  'evakuasi.png': evakuasi,
+  'kesehatan.png': kesehatan,
+  'manfaat5s.png': manfaat5s,
+  'p3k.png': p3k,
+  'scaffolder.png': scaffolder
+}
+function getImgUrl(path) {
+  if (!path) return null
+  if (path.startsWith('http')) return path
+  const name = (path || '').replace(/^.*\//, '')
+  return imgByFilename[name] || path
+}
 
 // Helper function untuk dummy data
 const getDummyMaterials = () => [
@@ -10,7 +31,7 @@ const getDummyMaterials = () => [
     description: 'Alat Pelindung Diri (APD) merupakan perlengkapan wajib yang harus digunakan oleh pekerja untuk melindungi diri dari bahaya di tempat kerja. Setiap pekerja harus memahami jenis APD yang sesuai dengan pekerjaannya.',
     category: 'Safety',
     content: 'Alat Pelindung Diri (APD) adalah perlengkapan yang wajib digunakan oleh pekerja untuk melindungi diri dari bahaya di tempat kerja. APD meliputi helm keselamatan, kacamata pelindung, sarung tangan, sepatu safety, dan masker. Penggunaan APD yang tepat dapat mencegah kecelakaan kerja dan cedera serius.',
-    image: '/img/APD.png'
+    image: apd
   },
   {
     id: 'dummy-2',
@@ -18,7 +39,7 @@ const getDummyMaterials = () => [
     description: 'Setiap pekerja harus memahami prosedur evakuasi darurat di tempat kerja. Prosedur ini mencakup rute evakuasi, titik kumpul, dan langkah-langkah yang harus dilakukan saat terjadi keadaan darurat.',
     category: 'Safety',
     content: 'Prosedur evakuasi darurat adalah langkah-langkah yang harus dilakukan saat terjadi keadaan darurat seperti kebakaran, gempa bumi, atau bencana lainnya. Setiap pekerja harus mengetahui rute evakuasi terdekat, titik kumpul yang aman, dan cara menggunakan alat pemadam kebakaran.',
-    image: '/img/evakuasi.png'
+    image: evakuasi
   },
   {
     id: 'dummy-3',
@@ -26,7 +47,7 @@ const getDummyMaterials = () => [
     description: 'Kesehatan mental sama pentingnya dengan kesehatan fisik di tempat kerja. Stres kerja, beban kerja berlebihan, dan lingkungan kerja yang tidak sehat dapat mempengaruhi kesehatan mental pekerja.',
     category: 'Kesehatan',
     content: 'Kesehatan mental di tempat kerja adalah kondisi dimana pekerja merasa nyaman, produktif, dan dapat bekerja dengan optimal. Perusahaan harus menyediakan lingkungan kerja yang mendukung kesehatan mental, termasuk program konseling, work-life balance, dan dukungan dari rekan kerja dan atasan.',
-    image: '/img/kesehatan.png'
+    image: kesehatan
   },
   {
     id: 'dummy-4',
@@ -34,7 +55,7 @@ const getDummyMaterials = () => [
     description: 'Metode 5S (Seiri, Seiton, Seiso, Seiketsu, Shitsuke) adalah sistem manajemen tempat kerja yang dapat membantu mencegah kecelakaan kerja dengan menciptakan lingkungan kerja yang rapi, bersih, dan terorganisir.',
     category: 'Safety',
     content: 'Metode 5S adalah sistem manajemen tempat kerja yang terdiri dari 5 langkah: Seiri (Sorting), Seiton (Set in Order), Seiso (Shine), Seiketsu (Standardize), dan Shitsuke (Sustain). Penerapan metode 5S dapat mengurangi risiko kecelakaan kerja, meningkatkan produktivitas, dan menciptakan lingkungan kerja yang lebih baik.',
-    image: '/img/manfaat5s.png'
+    image: manfaat5s
   },
   {
     id: 'dummy-5',
@@ -42,7 +63,7 @@ const getDummyMaterials = () => [
     description: 'Pengetahuan tentang Pertolongan Pertama pada Kecelakaan (P3K) sangat penting di tempat kerja. Setiap pekerja harus memahami dasar-dasar P3K untuk dapat memberikan pertolongan pertama saat terjadi kecelakaan.',
     category: 'Kesehatan',
     content: 'Pertolongan Pertama pada Kecelakaan (P3K) adalah tindakan pertama yang diberikan kepada korban kecelakaan sebelum mendapatkan perawatan medis profesional. Pengetahuan tentang P3K meliputi penanganan luka, patah tulang, luka bakar, dan kondisi darurat lainnya. Setiap tempat kerja harus memiliki kotak P3K yang lengkap dan pekerja yang terlatih.',
-    image: '/img/p3k.png'
+    image: p3k
   },
   {
     id: 'dummy-6',
@@ -50,7 +71,7 @@ const getDummyMaterials = () => [
     description: 'Bekerja di ketinggian memiliki risiko yang tinggi. Pekerja harus menggunakan peralatan keselamatan yang tepat, memahami prosedur kerja yang aman, dan selalu waspada terhadap bahaya yang mungkin terjadi.',
     category: 'Safety',
     content: 'Bekerja di ketinggian memerlukan perhatian khusus terhadap keselamatan. Pekerja harus menggunakan harness, tali pengaman, dan peralatan keselamatan lainnya. Selain itu, pekerja harus memahami prosedur kerja yang aman, melakukan inspeksi peralatan sebelum digunakan, dan selalu waspada terhadap kondisi cuaca dan lingkungan kerja.',
-    image: '/img/scaffolder.png'
+    image: scaffolder
   }
 ]
 
@@ -76,12 +97,10 @@ function Activity() {
         const response = await api.get('/public/materials')
         const materials = response.data || []
         
-        // Normalize image path for Vercel: ensure /img/ prefix for static assets
+        // Normalize image: gunakan URL dari frontend/img jika ada
         const withImgPath = (m) => ({
           ...m,
-          image: m.image && !m.image.startsWith('http') && !m.image.startsWith('/img/')
-            ? '/img/' + (m.image || '').replace(/^\//, '')
-            : m.image
+          image: getImgUrl(m.image) || m.image
         })
         if (materials.length > 0) {
           const normalized = materials.map(withImgPath)

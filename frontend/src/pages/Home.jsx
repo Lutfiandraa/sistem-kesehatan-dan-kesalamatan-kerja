@@ -1,4 +1,8 @@
 import { Link } from 'react-router-dom'
+import apd from '../../img/APD.png'
+import evakuasi from '../../img/evakuasi.png'
+import kesehatan from '../../img/kesehatan.png'
+import safetybackground from '../../img/safetybackground.png'
 
 // Helper function untuk truncate text
 const truncateText = (text, maxLength = 150) => {
@@ -13,21 +17,21 @@ const featuredMaterials = [
     title: 'Pentingnya Alat Pelindung Diri (APD) di Tempat Kerja',
     description: 'Alat Pelindung Diri (APD) merupakan perlengkapan wajib yang harus digunakan oleh pekerja untuk melindungi diri dari bahaya di tempat kerja. Setiap pekerja harus memahami jenis APD yang sesuai dengan pekerjaannya.',
     category: 'Safety',
-    image: '/img/APD.png'
+    image: apd
   },
   {
     id: 'dummy-2',
     title: 'Prosedur Evakuasi Darurat di Tempat Kerja',
     description: 'Setiap pekerja harus memahami prosedur evakuasi darurat di tempat kerja. Prosedur ini mencakup rute evakuasi, titik kumpul, dan langkah-langkah yang harus dilakukan saat terjadi keadaan darurat.',
     category: 'Safety',
-    image: '/img/evakuasi.png'
+    image: evakuasi
   },
   {
     id: 'dummy-3',
     title: 'Kesehatan Mental di Tempat Kerja',
     description: 'Kesehatan mental sama pentingnya dengan kesehatan fisik di tempat kerja. Stres kerja, beban kerja berlebihan, dan lingkungan kerja yang tidak sehat dapat mempengaruhi kesehatan mental pekerja.',
     category: 'Kesehatan',
-    image: '/img/kesehatan.png'
+    image: kesehatan
   }
 ]
 
@@ -38,7 +42,7 @@ function Home() {
       <section 
         className="text-white py-20 relative overflow-hidden"
         style={{
-          backgroundImage: 'url(/img/safetybackground.png)',
+          backgroundImage: `url(${safetybackground})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',

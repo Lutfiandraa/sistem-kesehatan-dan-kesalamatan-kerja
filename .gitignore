@@ -28,6 +28,16 @@ uploads/
 !frontend/public/**/*.svg
 !frontend/public/**/*.webp
 
+# Allow images in frontend/src/assets (Vite bundle)
+!frontend/src/assets/
+!frontend/src/assets/**
+!frontend/src/assets/**/*.png
+!frontend/src/assets/**/*.jpg
+!frontend/src/assets/**/*.jpeg
+!frontend/src/assets/**/*.gif
+!frontend/src/assets/**/*.svg
+!frontend/src/assets/**/*.webp
+
 # Logs
 logs/
 *.log

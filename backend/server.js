@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const path = require('path');
 const fs = require('fs');
+const rateLimit = require('express-rate-limit');
 const config = require('./config/config');
 const { errorHandler, notFound } = require('./middleware/errorHandler');
 const { testConnection } = require('./config/database');
@@ -16,8 +17,27 @@ const publicRoutes = require('./routes/public');
 // Initialize Express app
 const app = express();
 
-// Security middleware
-app.use(helmet());
+// Security middleware with CSP
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:", "blob:"],
+      connectSrc: ["'self'"]
+    },
+  },
+}));
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+app.use('/api/', limiter);
 
 // CORS configuration
 app.use(cors({

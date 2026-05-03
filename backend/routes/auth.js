@@ -137,6 +137,12 @@ router.post('/login', [
     // Remove password_hash from response
     delete user.password_hash;
     
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: config.nodeEnv === 'production',
+      sameSite: 'Strict',
+    });
+
     res.json({
       success: true,
       message: 'Login successful',

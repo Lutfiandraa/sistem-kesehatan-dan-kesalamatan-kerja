@@ -27,8 +27,20 @@ function Footer() {
           <div>
             <h3 className="font-semibold mb-4" style={{ color: '#f5f5f5' }}>Kontak</h3>
             <ul className="space-y-2 text-sm">
-              <li className="text-xs" style={{ color: '#808080' }}>
-                Email: info@safetyku.com
+              <li className="text-xs" style={{ color: '#b0b0b0' }}>
+                Email:{' '}
+                <a 
+                  href="#" 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const email = "info" + "@" + "safetyku.com";
+                    window.location.href = `mailto:${email}`;
+                  }}
+                  className="hover:underline transition-colors"
+                  style={{ color: '#34C759' }}
+                >
+                  Hubungi Kami
+                </a>
               </li>
             </ul>
           </div>

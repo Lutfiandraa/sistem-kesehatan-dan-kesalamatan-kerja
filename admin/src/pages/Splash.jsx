@@ -9,16 +9,8 @@ function Splash() {
     sessionStorage.setItem('hasSeenIntro', 'true')
     
     const timer = setTimeout(() => {
-      // Check if user is already logged in
-      const token = localStorage.getItem('token')
-      if (token) {
-        navigate('/dashboard')
-      } else {
-        // Set flag bahwa redirect dari Intro ke Login
-        sessionStorage.setItem('fromIntro', 'true')
-        // Always go to login (no registration option)
-        navigate('/login')
-      }
+      // Always go to dashboard
+      navigate('/dashboard')
     }, 2000) // Show intro for 2 seconds (1-3 seconds)
 
     return () => clearTimeout(timer)

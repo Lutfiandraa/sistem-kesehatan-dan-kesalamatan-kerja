@@ -1,20 +1,20 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useState } from 'react'
+import { FaHome, FaEdit, FaHistory, FaCalendarAlt, FaBars, FaTimes } from 'react-icons/fa'
 
 function PublicNavbar() {
   const location = useLocation()
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
 
   const navItems = [
-    { path: '/', label: 'Home' },
-    { path: '/catatan', label: 'Catatan' },
-    { path: '/riwayat-pelaporan', label: 'Riwayat Pelaporan' },
-    { path: '/kegiatan', label: 'Kegiatan' }
+    { path: '/', label: 'Home', icon: <FaHome /> },
+    { path: '/catatan', label: 'Catatan', icon: <FaEdit /> },
+    { path: '/riwayat-pelaporan', label: 'Riwayat Pelaporan', icon: <FaHistory /> },
+    { path: '/kegiatan', label: 'Kegiatan', icon: <FaCalendarAlt /> }
   ]
 
   const isActive = (path) => {
     if (path === '/catatan') {
-      // Menu Catatan aktif saat di /catatan, /program-kerja, atau /catatan/pelaporan
       return location.pathname === '/catatan' || 
              location.pathname === '/program-kerja' || 
              location.pathname === '/catatan/pelaporan'
@@ -23,113 +23,95 @@ function PublicNavbar() {
   }
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3">
-            <img 
-              src="/keselamatanlogo.png" 
-              alt="SafetyKU Logo" 
-              className="h-12 w-12 object-contain"
-            />
-            <div>
-              <span className="text-xl font-bold" style={{ color: '#34C759' }}>SafetyKU</span>
-              <p className="text-xs text-gray-600">Indonesia</p>
-            </div>
-          </Link>
+    <>
+      {/* Mobile Header Bar */}
+      <div className="lg:hidden bg-white shadow-sm border-b border-gray-100 h-16 px-4 flex items-center justify-between sticky top-0 z-50 w-full select-none">
+        <Link to="/" className="flex items-center space-x-2">
+          <img 
+            src="/keselamatanlogo.png" 
+            alt="SafetyKU Logo" 
+            className="h-8 w-8 object-contain"
+          />
+          <div>
+            <span className="text-lg font-bold" style={{ color: '#34C759' }}>SafetyKU</span>
+            <p className="text-[10px] text-gray-500 font-medium">Indonesia</p>
+          </div>
+        </Link>
+        <button 
+          onClick={() => setIsOpen(!isOpen)}
+          className="text-2xl text-gray-600 hover:text-gray-900 transition focus:outline-none p-2 rounded-lg hover:bg-gray-50"
+        >
+          {isOpen ? <FaTimes /> : <FaBars />}
+        </button>
+      </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-1">
-            {navItems.map((item) => (
-              <div key={item.path} className="relative group">
-                <Link
-                  to={item.path}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                    isActive(item.path)
-                      ? 'bg-primary-100' 
-                      : 'text-gray-700 hover:bg-gray-100'
-                  }`}
-                  style={isActive(item.path) ? { color: '#34C759' } : {}}
-                >
-                  {item.label}
-                </Link>
-                {item.submenu && (
-                  <div className="absolute left-0 mt-2 w-64 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 border border-gray-200">
-                    <div className="py-2">
-                      {item.submenu.map((subItem) => (
-                        <Link
-                          key={subItem.path}
-                          to={subItem.path}
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-primary-50 transition-colors"
-                          style={{ '--hover-color': '#34C759' }}
-                          onMouseEnter={(e) => e.currentTarget.style.color = '#34C759'}
-                          onMouseLeave={(e) => e.currentTarget.style.color = '#374151'}
-                        >
-                          {subItem.label}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                )}
+      {/* Sidebar Navigation */}
+      <div className={`
+        fixed inset-y-0 left-0 bg-white shadow-xl lg:shadow-md border-r border-gray-100 
+        w-64 z-50 lg:sticky lg:top-0 h-screen transition-transform duration-300 ease-in-out
+        flex flex-col justify-between flex-shrink-0 select-none
+        ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+      `}>
+        <div className="flex flex-col flex-1">
+          {/* Logo Section */}
+          <div className="p-6 h-24 border-b border-gray-50 flex items-center justify-between">
+            <Link to="/" className="flex items-center space-x-3">
+              <img 
+                src="/keselamatanlogo.png" 
+                alt="SafetyKU Logo" 
+                className="h-11 w-11 object-contain"
+              />
+              <div>
+                <span className="text-xl font-bold block leading-tight" style={{ color: '#34C759' }}>SafetyKU</span>
+                <p className="text-xs text-gray-500 font-semibold tracking-wider uppercase">Indonesia</p>
               </div>
+            </Link>
+            {/* Mobile close button */}
+            <button 
+              onClick={() => setIsOpen(false)}
+              className="lg:hidden text-gray-500 hover:text-gray-700 text-xl focus:outline-none"
+            >
+              <FaTimes />
+            </button>
+          </div>
+
+          {/* Navigation Links */}
+          <div className="flex-1 py-6 px-4 space-y-1.5 overflow-y-auto">
+            {navItems.map((item) => (
+              <Link
+                key={item.path}
+                to={item.path}
+                onClick={() => setIsOpen(false)}
+                className={`flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all duration-200 ${
+                  isActive(item.path)
+                    ? 'bg-primary-50 text-[#34C759] font-bold shadow-sm' 
+                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                }`}
+                style={isActive(item.path) ? { backgroundColor: '#E8FBF0', color: '#34C759' } : {}}
+              >
+                <span className={`text-xl transition-colors ${isActive(item.path) ? 'text-[#34C759]' : 'text-gray-400'}`}>
+                  {item.icon}
+                </span>
+                <span>{item.label}</span>
+              </Link>
             ))}
           </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              {isMenuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
-          </button>
         </div>
 
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="lg:hidden pb-4 border-t border-gray-200 mt-2">
-            <div className="flex flex-col space-y-1 pt-2">
-              {navItems.map((item) => (
-                <div key={item.path}>
-                  <Link
-                    to={item.path}
-                    onClick={() => setIsMenuOpen(false)}
-                    className={`block px-4 py-2 rounded-lg text-sm font-medium ${
-                      isActive(item.path)
-                        ? 'bg-primary-100'
-                        : 'text-gray-700 hover:bg-gray-100'
-                    }`}
-                    style={isActive(item.path) ? { color: '#34C759' } : {}}
-                  >
-                    {item.label}
-                  </Link>
-                  {item.submenu && (
-                    <div className="pl-6 mt-1 space-y-1">
-                      {item.submenu.map((subItem) => (
-                        <Link
-                          key={subItem.path}
-                          to={subItem.path}
-                          onClick={() => setIsMenuOpen(false)}
-                          className="block px-4 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50"
-                        >
-                          {subItem.label}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        {/* Footer info in sidebar */}
+        <div className="p-4 bg-gray-50/50 border-t border-gray-100 text-center">
+          <p className="text-xs text-gray-400 font-medium">&copy; 2026 SafetyKU</p>
+        </div>
       </div>
-    </nav>
+
+      {/* Overlay for mobile when sidebar is open */}
+      {isOpen && (
+        <div 
+          onClick={() => setIsOpen(false)}
+          className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 lg:hidden"
+        />
+      )}
+    </>
   )
 }
 

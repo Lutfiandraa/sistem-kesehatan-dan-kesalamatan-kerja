@@ -70,6 +70,12 @@ app.get('/health/db', async (req, res) => {
   }
 });
 
+// Custom global user middleware to populate req.user for all requests without login
+app.use((req, res, next) => {
+  req.user = { id: 1, username: 'admin', email: 'admin@k3.id', full_name: 'Admin K3', role: 'admin', department: 'Safety', is_active: true };
+  next();
+});
+
 // API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/incidents', incidentRoutes);

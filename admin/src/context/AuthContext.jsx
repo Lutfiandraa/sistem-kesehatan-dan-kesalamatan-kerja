@@ -1,5 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react'
-import api from '../services/api'
+import { createContext, useContext, useState } from 'react'
 
 const AuthContext = createContext()
 
@@ -8,65 +7,15 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    // Check if user is logged in
-    const token = localStorage.getItem('token')
-    if (token) {
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`
-      fetchUser()
-    } else {
-      setLoading(false)
-    }
-  }, [])
-
-  const fetchUser = async () => {
-    try {
-      const response = await api.get('/auth/me')
-      setUser(response.data.data.user)
-    } catch (error) {
-      localStorage.removeItem('token')
-      delete api.defaults.headers.common['Authorization']
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const login = async (email, password) => {
-    try {
-      const response = await api.post('/auth/login', { email, password })
-      const { user, token } = response.data.data
-      localStorage.setItem('token', token)
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`
-      setUser(user)
-      return { success: true }
-    } catch (error) {
-      return {
-        success: false,
-        message: error.response?.data?.message || 'Login failed'
-      }
-    }
-  }
-
-  const logout = () => {
-    localStorage.removeItem('token')
-    delete api.defaults.headers.common['Authorization']
-    setUser(null)
-  }
+  const [user, setUser] = useState({ id: 1, full_name: 'Admin K3' })
+  const [loading, setLoading] = useState(false)
 
   const value = {
     user,
-    login,
-    logout,
+    login: async () => ({ success: true }),
+    logout: () => {},
     loading
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
-
-
-
-
-

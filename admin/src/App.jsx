@@ -1,78 +1,31 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import { AuthProvider, useAuth } from './context/AuthContext'
+import { AuthProvider } from './context/AuthContext'
 import Layout from './components/Layout'
-import PublicLayout from './components/PublicLayout'
 import Splash from './pages/Splash'
-import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import ReportIncident from './pages/ReportIncident'
 import History from './pages/History'
 import Statistics from './pages/Statistics'
-import Home from './pages/public/Home'
-import Catatan from './pages/public/Catatan'
-import ProgramKerja from './pages/public/ProgramKerja'
-import HasilPelaporan from './pages/public/HasilPelaporan'
-import RiwayatPelaporan from './pages/public/RiwayatPelaporan'
-import Kegiatan from './pages/public/Kegiatan'
-import Contact from './pages/public/Contact'
 
 function PrivateRoute({ children }) {
-  const { user, loading } = useAuth()
-  
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen text-lg text-gray-600">
-        Loading...
-      </div>
-    )
-  }
-  
-  return user ? <Layout>{children}</Layout> : <Navigate to="/login" />
+  return <Layout>{children}</Layout>
 }
 
 function AppRoutes() {
   return (
     <Routes>
-      {/* Public Website Routes */}
-      <Route path="/" element={
-        <PublicLayout>
-          <Home />
-        </PublicLayout>
-      } />
-      <Route path="/catatan" element={
-        <PublicLayout>
-          <Catatan />
-        </PublicLayout>
-      } />
-      <Route path="/program-kerja" element={
-        <PublicLayout>
-          <ProgramKerja />
-        </PublicLayout>
-      } />
-      <Route path="/catatan/pelaporan" element={
-        <PublicLayout>
-          <HasilPelaporan />
-        </PublicLayout>
-      } />
-      <Route path="/riwayat-pelaporan" element={
-        <PublicLayout>
-          <RiwayatPelaporan />
-        </PublicLayout>
-      } />
-      <Route path="/kegiatan" element={
-        <PublicLayout>
-          <Kegiatan />
-        </PublicLayout>
-      } />
-      <Route path="/kontak" element={
-        <PublicLayout>
-          <Contact />
-        </PublicLayout>
-      } />
+      {/* Public Website Routes Redirect to Private */}
+      <Route path="/" element={<Navigate to="/dashboard" />} />
+      <Route path="/catatan" element={<Navigate to="/report" />} />
+      <Route path="/program-kerja" element={<Navigate to="/report" />} />
+      <Route path="/catatan/pelaporan" element={<Navigate to="/report" />} />
+      <Route path="/riwayat-pelaporan" element={<Navigate to="/history" />} />
+      <Route path="/kegiatan" element={<Navigate to="/statistics" />} />
+      <Route path="/kontak" element={<Navigate to="/dashboard" />} />
+      <Route path="/login" element={<Navigate to="/dashboard" />} />
       
       {/* Private App Routes */}
       <Route path="/app" element={<Splash />} />
-      <Route path="/login" element={<Login />} />
       <Route 
         path="/dashboard" 
         element={

@@ -31,6 +31,19 @@ const testConnection = async () => {
   try {
     const result = await pool.query('SELECT NOW()');
     console.log('✅ Database connection test successful:', result.rows[0].now);
+    
+    // Create activities table if not exists
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS activities (
+        id SERIAL PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        category VARCHAR(50) NOT NULL,
+        description TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    console.log('✅ Activities table checked/created');
+    
     return true;
   } catch (error) {
     console.error('❌ Database connection test failed:', error.message);

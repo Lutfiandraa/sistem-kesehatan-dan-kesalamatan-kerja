@@ -155,7 +155,7 @@ function Dashboard() {
       {/* Welcome Section */}
       <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight leading-tight mb-1 select-none">
+          <h1 className="text-3xl font-bold text-gray-900 tracking-tight leading-tight mb-1 select-none">
             Selamat Datang, {user?.full_name || 'User'}!
           </h1>
           <p className="text-gray-500 font-medium text-sm md:text-base">
@@ -166,7 +166,7 @@ function Dashboard() {
           <span className="text-2xl text-[#34C759]"><FaCheckCircle /></span>
           <div>
             <span className="text-xs font-medium text-gray-500 block leading-tight">Status K3</span>
-            <span className="text-sm font-black text-gray-800">Aktif & Terpantau</span>
+            <span className="text-sm font-semibold text-gray-800">Aktif & Terpantau</span>
           </div>
         </div>
       </div>
@@ -374,7 +374,7 @@ function Dashboard() {
               <FaChartLine />
             </div>
             <div>
-              <h3 className="font-bold text-gray-900">Daftar Kegiatan</h3>
+              <h3 className="font-semibold text-gray-900">Daftar Kegiatan</h3>
               <p className="text-xs font-medium text-gray-500 mt-0.5">Lihat postingan kegiatan</p>
             </div>
           </Link>

@@ -64,7 +64,7 @@ function Statistics() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-6 select-none animate-fade-in">
       {/* Page Header */}
       <div className="mb-6">
-        <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight leading-tight select-none">
+        <h1 className="text-3xl font-bold text-gray-900 tracking-tight leading-tight select-none">
           Daftar Kegiatan K3
         </h1>
         <p className="text-gray-500 font-medium text-sm md:text-base">
@@ -77,7 +77,7 @@ function Statistics() {
         <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-md">
           <div className="flex items-center space-x-2 mb-4">
             <span className="text-xl text-[#34C759]"><FaPlus /></span>
-            <h3 className="text-lg font-bold text-gray-900 leading-tight">Buat Postingan Kegiatan</h3>
+            <h3 className="text-lg font-semibold text-gray-900 leading-tight">Buat Postingan Kegiatan</h3>
           </div>
 
           {formError && (
@@ -129,7 +129,7 @@ function Statistics() {
 
             <button
               type="submit"
-              className="w-full py-3 bg-[#34C759] hover:bg-[#2fb14e] text-white rounded-xl text-sm font-black transition duration-200 shadow-md hover:shadow-lg hover:scale-[1.02]"
+              className="w-full py-3 bg-[#34C759] hover:bg-[#2fb14e] text-white rounded-xl text-sm font-semibold transition duration-200 shadow-md hover:shadow-lg hover:scale-[1.02]"
             >
               Kirim Postingan
             </button>
@@ -141,7 +141,7 @@ function Statistics() {
           <div>
             <div className="flex items-center space-x-2 mb-4">
               <span className="text-xl text-[#34C759]"><FaClipboardList /></span>
-              <h3 className="text-lg font-bold text-gray-900 leading-tight">Daftar Kegiatan Terbaru</h3>
+              <h3 className="text-lg font-semibold text-gray-900 leading-tight">Daftar Kegiatan Terbaru</h3>
             </div>
 
             {loadingActivities ? (
@@ -161,7 +161,7 @@ function Statistics() {
                           {new Date(act.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
                         </span>
                       </div>
-                      <h4 className="text-base font-black text-gray-800 tracking-tight leading-tight mb-1">{act.title}</h4>
+                      <h4 className="text-base font-semibold text-gray-800 tracking-tight leading-tight mb-1">{act.title}</h4>
                       <p className="text-xs text-gray-600 font-medium leading-relaxed max-w-lg">{act.description}</p>
                     </div>
                     <button

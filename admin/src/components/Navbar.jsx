@@ -18,7 +18,7 @@ function Navbar() {
   return (
     <>
       {/* Mobile Header Bar */}
-      <div className="lg:hidden bg-white shadow-sm border-b border-gray-100 h-16 px-4 flex items-center justify-between sticky top-0 z-50 w-full">
+      <div className="lg:hidden shadow-sm border-b border-gray-100 h-16 px-4 flex items-center justify-between sticky top-0 z-50 w-full" style={{ backgroundColor: '#F9F9F6' }}>
         <Link to="/dashboard" className="flex items-center space-x-2">
           <img 
             src="/keselamatanlogo.png" 
@@ -40,11 +40,11 @@ function Navbar() {
 
       {/* Sidebar Navigation */}
       <div className={`
-        fixed inset-y-0 left-0 bg-white shadow-xl lg:shadow-md border-r border-gray-100 
+        fixed inset-y-0 left-0 shadow-xl lg:shadow-md border-r border-gray-100 
         w-64 z-50 lg:sticky lg:top-0 h-screen transition-transform duration-300 ease-in-out
         flex flex-col justify-between flex-shrink-0
         ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-      `}>
+      `} style={{ backgroundColor: '#F9F9F6' }}>
         <div className="flex flex-col flex-1">
           {/* Logo Section */}
           <div className="p-6 h-24 border-b border-gray-50 flex items-center justify-between">

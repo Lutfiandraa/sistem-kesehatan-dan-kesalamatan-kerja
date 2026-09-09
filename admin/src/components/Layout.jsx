@@ -2,7 +2,7 @@ import Navbar from './Navbar'
 
 function Layout({ children }) {
   return (
-    <div className="min-h-screen bg-[#f4f6f9] font-sans lg:flex select-none">
+    <div className="min-h-screen bg-[#E8F5E9] font-sans lg:flex select-none">
       {/* Sidebar */}
       <Navbar />
 
